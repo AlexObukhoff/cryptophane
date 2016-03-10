@@ -46,7 +46,7 @@ object PassphraseForm: TPassphraseForm
     Top = 64
     Width = 345
     Height = 21
-    MaxLength = 64
+    MaxLength = 1024
     PasswordChar = '*'
     TabOrder = 0
   end

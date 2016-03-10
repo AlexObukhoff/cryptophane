@@ -41,12 +41,12 @@ begin
     KeyInfoLabel.Caption := '';
   end;
 
-  PassphraseEdit.MaxLength := 64;
+  PassphraseEdit.MaxLength := 1024;
   PassphraseEdit.Text := '';
   try
     result := false;
     if ShowModal <> mrOK then Exit;
-    StrLCopy(passphrase, PChar(PassphraseEdit.Text), 63);
+    StrLCopy(passphrase, PChar(PassphraseEdit.Text), 1023);
     result := true;
   finally
     blank := '';
