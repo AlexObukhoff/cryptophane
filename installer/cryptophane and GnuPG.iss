@@ -6,20 +6,20 @@
 AppName=Cryptophane+GnuPG
 
 AppVerName=Cryptophane+GnuPG 0.7.3
-AppVersion=0.7.0
-OutputBaseFilename="cryptophane-0.7.3-gnupg-1.4.9"
+AppVersion=0.7.3
+OutputBaseFilename="cryptophane-0.7.3-gnupg-1.4.12"
 
 AppCopyright=Cryptophane copyright 2005-2008 eCOSM.
 
 [Files]
-Source: "e:\Program Files\GNU\GnuPG\gpg.exe"; DestDir: "{app}\GnuPG"
-Source: "e:\Program Files\GNU\GnuPG\gpgkeys_finger.exe"; DestDir: "{app}\GnuPG"
-Source: "e:\Program Files\GNU\GnuPG\gpgkeys_hkp.exe"; DestDir: "{app}\GnuPG"
-Source: "e:\Program Files\GNU\GnuPG\gpgkeys_curl.exe"; DestDir: "{app}\GnuPG"
-Source: "e:\Program Files\GNU\GnuPG\gpgkeys_ldap.exe"; DestDir: "{app}\GnuPG"
-Source: "e:\Program Files\GNU\GnuPG\Doc\COPYING.txt"; DestDir: "{app}\GnuPG"
-Source: "e:\Program Files\GNU\GnuPG\Doc\README.txt"; DestDir: "{app}\GnuPG"
-Source: "e:\Program Files\GNU\GnuPG\Doc\README-W32.txt"; DestDir: "{app}\GnuPG"
+Source: "c:\bin\GnuPG\gpg.exe"; DestDir: "{app}\GnuPG"
+Source: "c:\bin\GnuPG\gpgkeys_finger.exe"; DestDir: "{app}\GnuPG"
+Source: "c:\bin\GnuPG\gpgkeys_hkp.exe"; DestDir: "{app}\GnuPG"
+Source: "c:\bin\GnuPG\gpgkeys_curl.exe"; DestDir: "{app}\GnuPG"
+Source: "c:\bin\GnuPG\gpgkeys_ldap.exe"; DestDir: "{app}\GnuPG"
+Source: "c:\bin\GnuPG\Doc\COPYING.txt"; DestDir: "{app}\GnuPG"
+Source: "c:\bin\GnuPG\Doc\README.txt"; DestDir: "{app}\GnuPG"
+Source: "c:\bin\GnuPG\Doc\README-W32.txt"; DestDir: "{app}\GnuPG"
 
 [Registry]
 Root: HKLM; Subkey: "Software\GNU"
