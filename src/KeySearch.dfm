@@ -1,10 +1,10 @@
 object KeySearchForm: TKeySearchForm
   Left = 270
   Top = 204
-  Width = 508
-  Height = 407
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = 'Search Keyserver'
+  ClientHeight = 369
+  ClientWidth = 492
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,8 +14,8 @@ object KeySearchForm: TKeySearchForm
   OldCreateOrder = False
   OnShow = FormShow
   DesignSize = (
-    500
-    380)
+    492
+    369)
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -45,7 +45,6 @@ object KeySearchForm: TKeySearchForm
     Width = 385
     Height = 21
     Anchors = [akLeft, akTop, akRight]
-    ItemHeight = 13
     TabOrder = 0
     Text = 'KeyserverCombo'
     OnEnter = KeyserverComboEnter

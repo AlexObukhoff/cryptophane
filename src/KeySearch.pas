@@ -3,7 +3,7 @@ unit KeySearch;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Contnrs, Forms,
   Dialogs, ExtCtrls, StdCtrls, ComCtrls, ScaledForm;
 
 type
@@ -30,9 +30,12 @@ type
     FSearchFor: string;
     FSortColumn: integer;
     FSortDesc: boolean;
+    FKeys: TObjectList;
     procedure AddKeys;
   public
     function Search(s: string): integer;
+  published
+    Destructor Destroy; override;
   end;
 
 var
@@ -42,7 +45,14 @@ implementation
 
 {$R *.dfm}
 
-uses GPGOps, GPGWrapper, Config, Utils, Contnrs, Math;
+uses GPGOps, GPGWrapper, Config, Utils, Math;
+
+destructor TKeySearchForm.Destroy;
+begin
+  if Assigned(FKeys) then FKeys.Free;
+
+  inherited;
+end;
 
 procedure TKeySearchForm.FormShow(Sender: TObject);
 begin
@@ -69,7 +79,6 @@ end;
 procedure TKeySearchForm.SearchButtonClick(Sender: TObject);
 var
   ops: TGPGOps;
-  keys: TObjectList;
   key: TGPGKey;
   i: integer;
   li: TListItem;
@@ -78,14 +87,14 @@ begin
 
   ListView.Items.Clear;
   ops := TGPGOps.Create;
-  keys := TObjectList.Create;
+  if not Assigned(FKeys) then FKeys := TObjectList.Create else FKeys.Clear;
   Screen.Cursor := crHourGlass;
   SearchButton.Enabled := false;
   Application.ProcessMessages;
   try
     try
       try
-        ops.SearchKeys(Trim(KeyEdit.Text), KeyServerCombo.Text, GConfig.ProxySetting, GConfig.ProxyHost, GConfig.ProxyPort, keys);
+        ops.SearchKeys(Trim(KeyEdit.Text), KeyServerCombo.Text, GConfig.ProxySetting, GConfig.ProxyHost, GConfig.ProxyPort, FKeys);
       except
         on ce: GPGConnectException do
         begin
@@ -98,10 +107,10 @@ begin
           MessageDlg('An error occurred while searching the keyserver.', mtError, [mbOK], 0);
         end;
       end;
-      
-      for i := 0 to keys.Count - 1 do
+
+      for i := 0 to FKeys.Count - 1 do
       begin
-        key := keys[i] as TGPGKey;
+        key := FKeys[i] as TGPGKey;
         li := ListView.Items.Add;
         li.Data := key;
         li.Caption := key.UserID;
@@ -112,13 +121,12 @@ begin
     except
     end;
 
-    if keys.Count = 0 then ListView.Items.Add.Caption := 'No results returned.';
+    if FKeys.Count = 0 then ListView.Items.Add.Caption := 'No results returned.';
     ListView.SetFocus;
 
   finally
     SearchButton.Enabled := true;
     Screen.Cursor := crDefault;
-    keys.Free;
     ops.Free;
   end;
 end;
@@ -133,6 +141,7 @@ var
   i: integer;
   sl, ids: TStringList;
   ops: TGPGOps;
+  key: TGPGKey;
   msg: string;
   imported: cardinal;
 begin
@@ -150,7 +159,8 @@ begin
         if (ListView.Items[i].SubItems.Count > 1) and
            (ListView.Items[i].SubItems[1] <> '') then
         begin
-          sl.Add(ListView.Items[i].SubItems[1]);
+          key := ListView.Items[i].Data;
+          sl.Add(key.GetKeyID(true));
         end;
       end;
     end;
