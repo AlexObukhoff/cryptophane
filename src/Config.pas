@@ -15,6 +15,8 @@ type
   TConfig = class
   private
     procedure SetProxySetting(const value: TProxySetting);
+    procedure SetUseUntrustedKey(const value: boolean);
+    function GetUseUntrustedKey(): boolean;
   protected
     FNoRegistryLoadSave: boolean;
 
@@ -69,6 +71,7 @@ type
     property ProxyHost: string read FProxyHost write FProxyHost;
     property ProxyPort: integer read FProxyPort write FProxyPort;
     property ShowSuccessDialogs: boolean read FShowSuccessDialogs write FShowSuccessDialogs;
+    property UseUntrustedKey: boolean read GetUseUntrustedKey write SetUseUntrustedKey;
   end;
 
 var
@@ -117,7 +120,7 @@ begin
   Show16DigitIDs := false;
   FProxySetting := psUseWindows; { this sets ProxyHost/ProxyPort }
   FShowSuccessDialogs := true;
-  
+
   FKeyFolders.Clear;
   FFolders.Clear;
   FFolders.Add('Keys');
@@ -153,6 +156,7 @@ begin
     FolderWidth := r.ReadInteger('FolderWidth', FolderWidth);
     Show16DigitIDs := r.ReadBool('Show16DigitIDs', Show16DigitIDs);
     ShowSuccessDialogs := r.ReadBool('ShowSuccessDialogs', ShowSuccessDialogs);
+    UseUntrustedKey := r.ReadBool('UseUntrustedKey', UseUntrustedKey);
 
     // Important: must load Host/Port first.
     ProxyHost := r.ReadString('ProxyHost', ProxyHost);
@@ -238,6 +242,7 @@ begin
     r.WriteString('ProxyHost', ProxyHost);
     r.WriteInteger('ProxyPort', ProxyPort);
     r.WriteBool('ShowSuccessDialogs', ShowSuccessDialogs);
+    r.WriteBool('UseUntrustedKey', UseUntrustedKey);
 
     r.WriteInteger('KeyServer.Count', FKeyServers.Count);
     for i := 0 to FKeyServers.Count - 1 do
@@ -303,6 +308,16 @@ begin
   end;
 
   FProxySetting := value;
+end;
+
+procedure TConfig.SetUseUntrustedKey(const value: boolean);
+begin
+  GPGOps.UseUntrustedKey := value;
+end;
+
+function TConfig.GetUseUntrustedKey(): boolean;
+begin
+  result := GPGOps.UseUntrustedKey;
 end;
 
 end.

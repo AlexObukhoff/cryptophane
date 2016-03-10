@@ -126,6 +126,9 @@ type
     property PromptOverwriteFileCallback: TPromptOverwriteFileCallback read FPromptOverwriteFileCallback write FPromptOverwriteFileCallback;
   end;
 
+var
+  UseUntrustedKey: boolean;
+
 implementation
 
 uses Utils, TypInfo;
@@ -317,9 +320,15 @@ end;
 
 function TGPGOps.EncryptSignCallback(const dataType, promptName: string;
   requestData: TGPGRequestData; var response: string): boolean;
+var
+  answer: string;
 begin
   result := true;
-  if promptName = 'untrusted_key.override' then response := 'n'#13#10
+  answer := 'n'#13#10;
+
+  if GPGOps.UseUntrustedKey then answer := 'y'#13#10;
+
+  if promptName = 'untrusted_key.override' then response := answer
   else result := false;
 end;
 

@@ -36,6 +36,7 @@ type
     ProxyPortLabel: TLabel;
     ProxyPortEdit: TEdit;
     ShowSuccessDialogsCheck: TCheckBox;
+    UseUntrustedKeyCheck: TCheckBox;
     procedure OKButtonClick(Sender: TObject);
     procedure KeyServersListClick(Sender: TObject);
     procedure KeyServersEditChange(Sender: TObject);
@@ -111,6 +112,7 @@ begin
   ProxyHostEdit.Text := GConfig.ProxyHost;
   ProxyPortEdit.Text := IntToStr(GConfig.ProxyPort);
   ShowSuccessDialogsCheck.Checked := GConfig.ShowSuccessDialogs;
+  UseUntrustedKeyCheck.Checked := GConfig.UseUntrustedKey;
 
   result := ShowModal;
 end;
@@ -196,6 +198,7 @@ begin
     end;
 
     GConfig.ShowSuccessDialogs := ShowSuccessDialogsCheck.Checked;
+    GConfig.UseUntrustedKey := UseUntrustedKeyCheck.Checked;
 
     GConfig.Save;
     ModalResult := mrOK;

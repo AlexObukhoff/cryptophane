@@ -74,7 +74,6 @@ object SetupForm: TSetupForm
     Height = 21
     Style = csDropDownList
     Anchors = [akLeft, akTop, akRight]
-    ItemHeight = 13
     TabOrder = 2
     OnChange = DefaultKeyComboChange
   end
@@ -245,11 +244,19 @@ object SetupForm: TSetupForm
     TabOrder = 4
   end
   object ShowSuccessDialogsCheck: TCheckBox
-    Left = 176
-    Top = 312
+    Left = 175
+    Top = 311
     Width = 281
     Height = 17
     Caption = 'Show a dialog upon successful encryption/decryption'
     TabOrder = 8
+  end
+  object UseUntrustedKeyCheck: TCheckBox
+    Left = 175
+    Top = 328
+    Width = 130
+    Height = 17
+    Caption = 'Allow to encrypt by unknowns keys'
+    TabOrder = 9
   end
 end
