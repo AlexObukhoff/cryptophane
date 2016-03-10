@@ -193,6 +193,9 @@ type
     procedure DataCallback(cmd: string; lineNumber: integer; isFragment: boolean; var write_stdin: THandle; var terminateProgram: boolean);
     procedure WriteDebug(str: string);
 
+  private
+    procedure WriteStdIn(var write_stdin: THandle; var s: string; var count: cardinal);
+
   public
     constructor Create;
     destructor Destroy; override;
@@ -270,7 +273,7 @@ begin
   prefix := '[GNUPG:] ';
 
   FRawLines.Clear;
-  FCommandLine := FEXEPath + ' --homedir ' + CommandQuote(GGPGLocation.HomeDir) + ' ' + args;
+  FCommandLine := FEXEPath + ' --homedir ' + CommandQuote(GGPGLocation.HomeDir) + ' --display-charset utf-8 --utf8-strings ' + args;
 
   WriteDebug('Executing:'#13#10 + FCommandLine + #13#10#13#10);
 
@@ -299,6 +302,14 @@ begin
   FSymPassphraseRequestType := symPassphraseRequestType;
   FOutputFilename := outputFilename;
   OldExec(args);
+end;
+
+procedure TGPGWrapper.WriteStdIn(var write_stdin: THandle; var s: string; var count: cardinal);
+var
+  bufs: TBytes;
+begin
+  bufs := TEncoding.GetEncoding(CP_UTF8).GetBytes(s);
+  WriteFile(write_stdin, bufs[0], Length(bufs), count, nil);
 end;
 
 procedure TGPGWrapper.DataCallback(cmd: string; lineNumber: integer;
@@ -343,10 +354,11 @@ begin
           begin
             if Assigned(FPassphrase) then
             begin
-              WriteFile(write_stdin, FPassphrase^, StrLen(FPassphrase), count, nil);
+              s := FPassphrase;
+              WriteStdIn(write_stdin, s, count);
             end;
             s := #13#10;
-            WriteFile(write_stdin, PChar(s)^, Length(s), count, nil);
+            WriteStdIn(write_stdin, s, count);
           end
           else if c[2] = 'openfile.overwrite.okay' then
           begin
@@ -355,7 +367,7 @@ begin
               s := 'y'#13#10
             else
               s := 'n'#13#10;
-            WriteFile(write_stdin, PChar(s)^, Length(s), count, nil);
+            WriteStdIn(write_stdin, s, count);
           end
           else if c[2] = 'openfile.askoutname' then
           begin
@@ -366,7 +378,7 @@ begin
             else
             begin
               s := s + #13#10;
-              WriteFile(write_stdin, PChar(s)^, Length(s), count, nil);
+              WriteStdIn(write_stdin, s, count);
               FOutputFilename := s;
             end;
           end
@@ -392,7 +404,7 @@ begin
               Halt;
             end;
 
-            WriteFile(write_stdin, PChar(s)^, Length(s), count, nil);
+            WriteStdIn(write_stdin, s, count);
           end;
         end;
       end;
@@ -612,7 +624,7 @@ begin
 
     FLongID := l[4];
     FCreatedDate := YMDToDateTime(l[5]);
-    FExpiryDate := YMDToDateTime(l[6]);
+    if l[6] <> '' then FExpiryDate := YMDToDateTime(l[6]);
     FFingerprint := l[7];
 
     if l[8] <> '' then
