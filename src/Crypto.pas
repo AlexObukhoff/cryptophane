@@ -145,6 +145,7 @@ end;
 procedure TCrypto.Decrypt(inFilename, outFilename: string);
 var
   ext: string;
+  dstExt: string;
   od: TOpenDialog;
   sd: TSaveDialog;
   validSignatures, invalidSignatures: TStringList;
@@ -165,14 +166,18 @@ begin
     if outFilename = '' then
     begin
       ext := ExtractFileExt(inFilename);
-      if (ext = '.gpg') or (ext = '.pgp') or (ext = '.asc') then
-        sd.FileName := Copy(inFilename, 1, Length(inFilename) - Length(ext))
-      else
-        sd.FileName := inFilename + '.decrypted';
-      sd.DefaultExt := '';
-      sd.Filter := 'All Files|*.*';
+      if (ext = '.gpg') or (ext = '.pgp') or (ext = '.asc') then begin
+        sd.FileName := Copy(inFilename, 1, Length(inFilename) - Length(ext));
+        ext := ExtractFileExt(sd.FileName);
+        dstExt := Copy(ext, 2, Length(ext));
+      end
+      else sd.FileName := inFilename + '.decrypted';
+
+      sd.DefaultExt := dstExt;
+      sd.Filter := dstExt + ' files|*.' + dstExt + '|All Files|*.*';
       if not sd.Execute then Exit;
       outFilename := sd.FileName;
+      if ExtractFileExt(outFilename) = '' then outFilename := outFilename + ext;
     end;
 
     try
@@ -472,6 +477,8 @@ begin
   try
     sd.FileName := filename;
     sd.Options := sd.Options + [ofOverwritePrompt, ofPathMustExist];
+    sd.DefaultExt := Copy(ExtractFileExt(sd.FileName), 2, Length(ExtractFileExt(sd.FileName)));
+    sd.Filter := sd.DefaultExt + ' files|*.' + sd.DefaultExt;
     if not sd.Execute then exit;
     filename := sd.FileName;
     result := true;
