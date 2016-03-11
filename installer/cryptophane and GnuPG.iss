@@ -26,3 +26,5 @@ Root: HKLM; Subkey: "Software\GNU"
 Root: HKLM; Subkey: "Software\GNU\GNUPG"
 Root: HKLM; Subkey: "Software\GNU\GNUPG"; ValueType: string; ValueName: "gpgProgram"; ValueData: "{app}\GnuPG\gpg.exe"; flags: createvalueifdoesntexist
 
+[INI]
+Filename: "{app}\Cryptophane.ini"; Section: "gpg"; Key: "gpg-path"; String: "{app}\GnuPG"; Flags: createkeyifdoesntexist
