@@ -12,6 +12,7 @@ object SetupForm: TSetupForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poMainFormCenter
   DesignSize = (
     464
     402)

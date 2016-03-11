@@ -12,6 +12,7 @@ object SignKeyForm: TSignKeyForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poMainFormCenter
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -91,7 +92,6 @@ object SignKeyForm: TSignKeyForm
     Width = 289
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
     TabOrder = 0
     OnChange = KeyComboChange
   end

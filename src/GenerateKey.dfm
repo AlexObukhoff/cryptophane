@@ -12,6 +12,7 @@ object GenerateKeyForm: TGenerateKeyForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poMainFormCenter
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -165,7 +166,6 @@ object GenerateKeyForm: TGenerateKeyForm
     Width = 73
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
     TabOrder = 7
   end
   object ElGamalCombo: TComboBox
@@ -174,7 +174,6 @@ object GenerateKeyForm: TGenerateKeyForm
     Width = 73
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
     TabOrder = 8
   end
 end

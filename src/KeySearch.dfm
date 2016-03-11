@@ -12,6 +12,7 @@ object KeySearchForm: TKeySearchForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poMainFormCenter
   OnShow = FormShow
   DesignSize = (
     492

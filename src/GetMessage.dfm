@@ -1,7 +1,6 @@
 object GetMessageForm: TGetMessageForm
   Left = 316
   Top = 169
-  AutoScroll = False
   BorderIcons = [biSystemMenu]
   Caption = 'Enter Message'
   ClientHeight = 373
@@ -13,7 +12,7 @@ object GetMessageForm: TGetMessageForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  Position = poDefaultPosOnly
+  Position = poMainFormCenter
   DesignSize = (
     431
     373)

@@ -12,6 +12,7 @@ object NewPassphraseForm: TNewPassphraseForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -31,7 +32,7 @@ object NewPassphraseForm: TNewPassphraseForm
   object Label3: TLabel
     Left = 8
     Top = 104
-    Width = 345
+    Width = 336
     Height = 39
     Caption = 
       'Please note this is NOT your secret key passphrase.  You need to' +

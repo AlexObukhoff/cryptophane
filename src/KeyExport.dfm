@@ -1,7 +1,6 @@
 object KeyExportForm: TKeyExportForm
   Left = 195
   Top = 106
-  AutoScroll = False
   BorderIcons = [biSystemMenu]
   Caption = 'Export Keys'
   ClientHeight = 305
@@ -13,7 +12,7 @@ object KeyExportForm: TKeyExportForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  Position = poDefaultPosOnly
+  Position = poMainFormCenter
   OnShow = FormShow
   DesignSize = (
     450

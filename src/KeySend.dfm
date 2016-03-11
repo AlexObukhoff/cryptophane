@@ -1,10 +1,10 @@
 object KeySendForm: TKeySendForm
   Left = 195
   Top = 107
-  Width = 465
-  Height = 356
   BorderIcons = [biSystemMenu]
   Caption = 'Send Keys to Keyserver'
+  ClientHeight = 318
+  ClientWidth = 449
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,10 +12,11 @@ object KeySendForm: TKeySendForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poMainFormCenter
   OnShow = FormShow
   DesignSize = (
-    457
-    329)
+    449
+    318)
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -31,7 +32,6 @@ object KeySendForm: TKeySendForm
     Width = 257
     Height = 21
     Anchors = [akLeft, akTop, akRight]
-    ItemHeight = 13
     TabOrder = 0
     Text = 'KeyserverCombo'
   end

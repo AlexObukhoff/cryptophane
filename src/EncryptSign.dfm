@@ -3,7 +3,6 @@ object EncryptSignForm: TEncryptSignForm
   Top = 107
   HorzScrollBar.Visible = False
   VertScrollBar.Visible = False
-  AutoScroll = False
   Caption = 'Encrypt/Sign Data'
   ClientHeight = 472
   ClientWidth = 505
@@ -14,7 +13,7 @@ object EncryptSignForm: TEncryptSignForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  Position = poDefaultPosOnly
+  Position = poMainFormCenter
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -218,7 +217,6 @@ object EncryptSignForm: TEncryptSignForm
       Width = 361
       Height = 21
       Style = csDropDownList
-      ItemHeight = 13
       TabOrder = 1
       OnChange = ComboBoxChange
     end

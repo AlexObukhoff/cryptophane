@@ -12,6 +12,7 @@ object SymPassphraseForm: TSymPassphraseForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -33,7 +34,7 @@ object SymPassphraseForm: TSymPassphraseForm
     Top = 48
     Width = 345
     Height = 21
-    MaxLength = 64
+    MaxLength = 1024
     PasswordChar = '*'
     TabOrder = 0
   end

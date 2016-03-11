@@ -1,9 +1,9 @@
 object EditTrustForm: TEditTrustForm
   Left = 195
   Top = 107
-  Width = 574
-  Height = 436
   Caption = 'Edit Level of Trust'
+  ClientHeight = 398
+  ClientWidth = 558
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,6 +11,7 @@ object EditTrustForm: TEditTrustForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel

@@ -12,6 +12,7 @@ object AboutForm: TAboutForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poMainFormCenter
   OnCreate = FormCreate
   DesignSize = (
     345

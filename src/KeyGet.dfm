@@ -12,6 +12,7 @@ object KeyGetForm: TKeyGetForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poMainFormCenter
   OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
@@ -35,7 +36,6 @@ object KeyGetForm: TKeyGetForm
     Top = 8
     Width = 385
     Height = 21
-    ItemHeight = 13
     TabOrder = 0
     Text = 'KeyserverCombo'
   end
