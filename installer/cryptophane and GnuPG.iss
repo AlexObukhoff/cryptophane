@@ -5,11 +5,11 @@
 [Setup]
 AppName=Cryptophane+GnuPG
 
-AppVerName=Cryptophane+GnuPG 0.7.3
-AppVersion=0.7.3
-OutputBaseFilename="cryptophane-0.7.3-gnupg-1.4.12"
+AppVerName=Cryptophane+GnuPG 0.7.4
+AppVersion=0.7.4
+OutputBaseFilename="cryptophane-0.7.4-gnupg-1.4.12"
 
-AppCopyright=Cryptophane copyright 2005-2008 eCOSM.
+AppCopyright=Cryptophane (c) 2005-2008 eCOSM; 2016 Alexey Obukhov
 
 [Files]
 Source: "c:\bin\GnuPG\gpg.exe"; DestDir: "{app}\GnuPG"
