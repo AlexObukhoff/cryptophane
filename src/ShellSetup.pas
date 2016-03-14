@@ -13,8 +13,10 @@ implementation
 uses Registry, Windows, ShlObj, Classes;
 
 const
+  KeyProgID = 'Cryptophane.Key.1';
+  KeyExts: array [1..1] of string = ('.asc');
   EncProgID = 'Cryptophane.Encrypted.1';
-  EncExts: array [1..3] of string = ('.gpg','.pgp','.asc');
+  EncExts: array [1..2] of string = ('.gpg','.pgp');
   SigProgID = 'Cryptophane.Signature.1';
   SigExts: array [1..1] of string = ('.sig');
 
@@ -33,6 +35,30 @@ begin
   try
     try
       r.RootKey := HKEY_CLASSES_ROOT;
+
+      // ImportProgID
+      if not r.KeyExists('\' + KeyProgID) then changed := true;
+      r.OpenKey('\' + KeyProgID, true);
+      r.WriteString('', 'Key File');
+      r.OpenKey('shell', true);
+      r.WriteString('', 'import');
+      r.OpenKey('import', true);
+      r.WriteString('', 'Import');
+      r.OpenKey('command', true);
+      if r.ReadString('') <> '"' + ParamStr(0) + '" "%1"' then changed := true;
+      r.WriteString('', '"' + ParamStr(0) + '" "%1"');
+
+      for i := Low(KeyExts) to High(KeyExts) do
+      begin
+        r.OpenKey('\' + KeyExts[i], true);
+        old := r.ReadString('');
+        if (old <> '') and (old <> KeyProgID) then
+        begin
+          changed := true;
+          r.WriteString('Cryptophane_back', old);
+        end;
+        r.WriteString('', KeyProgID);
+      end;
 
       // EncProgID
       if not r.KeyExists('\' + EncProgID) then changed := true;
@@ -76,8 +102,8 @@ begin
         old := r.ReadString('');
         if (old <> '') and (old <> SigProgID) then
         begin
-          r.WriteString('Cryptophane_back', old);
           changed := true;
+          r.WriteString('Cryptophane_back', old);
         end;
         r.WriteString('', SigProgID);
       end;
