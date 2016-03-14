@@ -69,14 +69,14 @@ end;
 procedure TDisplayDataForm.SaveButtonClick(Sender: TObject);
 var
   f: TFileStream;
-  s: string;
+  s: TBytes;
 begin
   if SaveDialog.Execute then
   begin
     f := TFileStream.Create(SaveDialog.Filename, fmCreate or fmOpenWrite);
     try
-      s := Memo.Text;
-      f.Write(s[1], Length(s));
+      s := TEncoding.UTF8.GetBytes(Memo.Text);
+      f.Write(s[0], Length(s));
     finally
       f.Free;
     end;

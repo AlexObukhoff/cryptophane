@@ -254,7 +254,7 @@ begin
 
   try
     GGPGLocation := TGPGLocation.Create(not FIgnoreGPGRegistry, FEXEPath, FHomeDir);
-    //GGPGLocation.DebugFile := 'C:\Cryptophane debug log.txt';
+    //GGPGLocation.DebugFile := 'C:\test2\Cryptophane debug log.txt';
     CheckVersion;
   except
     on CannotFindGPGException do
@@ -329,6 +329,30 @@ begin
   end;
 
   FreeAndNil(GGPGLocation);
+end;
+
+function LoadFileToStr(const FileName: TFileName): String;
+var
+  FileStream : TFileStream;
+  Bytes: TBytes;
+
+begin
+  Result:= '';
+  FileStream:= TFileStream.Create(FileName, fmOpenRead or fmShareDenyWrite);
+  try
+    if FileStream.Size>0 then begin
+      SetLength(Bytes, FileStream.Size);
+      FileStream.Read(Bytes[0], FileStream.Size);
+    end;
+    Result:= TEncoding.ASCII.GetString(Bytes);
+  finally
+    FileStream.Free;
+  end;
+end;
+
+function IsPublicKey(filename: string): boolean;
+begin
+  result := ansipos('-----BEGIN PGP PUBLIC KEY BLOCK-----', LoadFileToStr(filename)) > 0;
 end;
 
 procedure TMainForm.StartupComplete(var msg: TMessage);
@@ -416,7 +440,10 @@ begin
     begin
       FStartupFilename := p;
       ext := ExtractFileExt(p);
-      if (ext = '.asc') or (ext = '.gpg') or (ext = '.pgp') then
+      if (ext = '.asc') then begin
+        if IsPublicKey(FStartupFilename) then FStartupCommand := 'import' else FStartupCommand := 'decrypt';
+      end
+      else if(ext = '.gpg') or (ext = '.pgp') then
         FStartupCommand := 'decrypt'
       else if ext = '.sig' then
         FStartupCommand := 'verify'
@@ -524,7 +551,9 @@ begin
         FStartupFilename := IncludeTrailingPathDelimiter(curdir) + FStartupFilename;
       end;
 
-      if FStartupCommand = 'encrypt' then
+      if FStartupCommand = 'import' then
+        FCrypto.ImportKey(FStartupFilename)
+      else if FStartupCommand = 'encrypt' then
         FCrypto.EncryptSign(coEncrypt, FStartupFilename)
       else if FStartupCommand = 'sign' then
         FCrypto.EncryptSign(coSign, FStartupFilename)

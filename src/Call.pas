@@ -213,7 +213,7 @@ begin
     try
       if Assigned(processStartWriteData) then
       begin
-        bufs := TEncoding.GetEncoding(CP_UTF8).GetBytes(string(processStartWriteData));
+        bufs := TEncoding.UTF8.GetBytes(string(processStartWriteData));
 
         WriteFile(write_stdin, bufs[0], Length(bufs), count, nil);
         CloseHandleAndNil(write_stdin);
@@ -242,13 +242,13 @@ begin
         SetLength(bufs, 0);
         SetLength(bufs, count);
         Move(buf[0], bufs[0], count);
-        data := data + TEncoding.GetEncoding(CP_UTF8).GetString(bufs);
+        data := data + TEncoding.UTF8.GetString(bufs);
 
         if Assigned(dataReceivedCallback) then
         begin
           terminate := false;
 
-          s := lineFragment + TEncoding.GetEncoding(CP_UTF8).GetString(bufs);
+          s := lineFragment + TEncoding.UTF8.GetString(bufs);
           Split(#10, s, inputLines);
           if inputLines.Count > 0 then
           begin

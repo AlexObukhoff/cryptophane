@@ -308,7 +308,7 @@ procedure TGPGWrapper.WriteStdIn(var write_stdin: THandle; var s: string; var co
 var
   bufs: TBytes;
 begin
-  bufs := TEncoding.GetEncoding(CP_UTF8).GetBytes(s);
+  bufs := TEncoding.UTF8.GetBytes(s);
   WriteFile(write_stdin, bufs[0], Length(bufs), count, nil);
 end;
 
@@ -419,6 +419,7 @@ end;
 procedure TGPGWrapper.WriteDebug(str: string);
 var
   f: TFileStream;
+  bytes: TBytes;
 begin
   if GGPGLocation.DebugFile = '' then exit;
 
@@ -441,7 +442,8 @@ begin
   end;
 
   try
-    f.Write(str[1], Length(str));
+    bytes := TEncoding.UTF8.GetBytes(str);
+    f.Write(bytes[0], Length(bytes));
   finally
     f.Free;
   end;

@@ -49,6 +49,7 @@ type
     procedure Verify(inFilename: string = '');
 
     function SignKey(key: TGPGKey): boolean;
+    function ImportKey(const filename: SysUtils.TFileName): boolean;
     function ImportKeys: boolean;
     function DeleteKey(key: TGPGKey; secretKey: boolean): boolean;
     function RevokeKey(key: TGPGKey): boolean;
@@ -533,21 +534,35 @@ end;
 
 function TCrypto.ImportKeys: boolean;
 var
-  sl: TStringList;
-  i: integer;
-  msg, imported: string;
-  pubImported, pubUnchanged, secImported, secUnchanged, revoked: cardinal;
   od: TOpenDialog;
 begin
   result := false;
   od := TOpenDialog.Create(nil);
-  sl := TStringList.Create;
   try
     od.Filter := 'GPG/PGP files|*.gpg;*.pgp;*.asc|All Files|*.*';
     if not od.Execute then Exit;
 
+    result := ImportKey(od.FileName);
+
+  finally
+    od.Free;
+  end;
+
+end;
+
+function TCrypto.ImportKey(const filename: SysUtils.TFileName): boolean;
+var
+  sl: TStringList;
+  i: integer;
+  msg, imported: string;
+  pubImported, pubUnchanged, secImported, secUnchanged, revoked: cardinal;
+begin
+  result := false;
+  sl := TStringList.Create;
+  try
+
     try
-      FOps.ImportKeys(od.FileName, pubImported, pubUnchanged, secImported, secUnchanged, revoked, sl);
+      FOps.ImportKeys(filename, pubImported, pubUnchanged, secImported, secUnchanged, revoked, sl);
     except
       MessageDlg(RMainImportFail, mtError, [mbOK], 0);
       exit;
@@ -574,7 +589,6 @@ begin
     end;
 
   finally
-    od.Free;
     sl.Free;
   end;
 
@@ -596,6 +610,7 @@ var
   cert: string;
   sd: TSaveDialog;
   f: TFileStream;
+  bytes: TBytes;
 begin
   result := false;
   try
@@ -616,7 +631,8 @@ begin
       try
         f := TFileStream.Create(sd.FileName, fmCreate or fmOpenWrite);
         try
-          f.Write(cert[1], Length(cert));
+          bytes := TEncoding.UTF8.GetBytes(cert);
+          f.Write(bytes[0], Length(bytes));
           result := true;
           MessageDlg(RMainSuccessCreateRevoke, mtInformation, [mbOK], 0);
         finally

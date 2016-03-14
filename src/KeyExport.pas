@@ -77,6 +77,7 @@ var
   ddf: TDisplayDataForm;
   keys: TList;
   i: integer;
+  bytes: TBytes;
 begin
   if ExportAllCheck.Checked then
     keys := nil
@@ -119,7 +120,8 @@ begin
       try
         f := TFileStream.Create(SaveDialog.FileName, fmCreate or fmOpenWrite);
         try
-          f.Write(data[1], Length(data));
+          bytes := TEncoding.UTF8.GetBytes(data);
+          f.Write(bytes[0], Length(bytes));
         finally
           f.Free;
         end;

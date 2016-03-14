@@ -47,6 +47,7 @@ var
   ss: TStringList;
   i: integer;
   f: TFileStream;
+  bytes: TBytes;
 begin
   if GetTempPath(1024, tempPath) < 1 then
   begin
@@ -65,7 +66,8 @@ begin
     f := nil;
     try
       f := TFileStream.Create(tempName, fmCreate or fmOpenWrite);
-      f.Write(Memo.Text[1], Length(Memo.Text));
+      bytes := TEncoding.UTF8.GetBytes(Memo.Text);
+      f.Write(bytes[0], Length(bytes));
       f.Free;
     except
       f.Free;
